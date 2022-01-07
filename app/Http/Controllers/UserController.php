@@ -4,24 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function __construct()
+    protected $user;
+    public function __construct(User $user)
     {
         $this->middleware('permission:users.index')->only('index','show');
         $this->middleware('permission:users.create')->only('create','store');
         $this->middleware('permission:users.edit')->only('edit','update');
         $this->middleware('permission:users.destroy')->only('destroy');
+        $this->user = $user;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $dni = $request->dniDelUsuario;
+        $email = $request->emailDelUsuario;
+        $state = $request->disabled;
+
+        $users = $this->user
+            ->isDisabled($state)
+            ->email($email)
+            ->dni($dni)
+            ->orderBy('id','desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('user.index',compact('users','request'));
     }
 
     /**
@@ -29,9 +44,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->user()->hasRole(1)) {
+            $roles = Role::all();
+        } elseif($request->user()->hasRole(2)){
+            $roles = Role::all()->except([1,2]);
+        } else{
+            $roles = Role::all()->except([1,2,3]);
+        }
+        return view('user.create',compact('roles'));
     }
 
     /**
@@ -42,7 +64,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->role);
+        $date = array(
+            'active' => 'true'
+        );
+        $user = $this->user->create($date + $request->all());
+        $user->assignRole($request->role);
     }
 
     /**

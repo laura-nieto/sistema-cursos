@@ -133,7 +133,7 @@
                   @if(auth()->user()->can('roles.index'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('roles.index')}}">
                         Mostrar roles
                       </a>
                     </div>
@@ -141,7 +141,7 @@
                   @if(auth()->user()->can('roles.create'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('roles.create')}}">
                         Crear role
                       </a>
                     </div>
@@ -229,7 +229,7 @@
                     @if(auth()->user()->can('users.index'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('usuarios.index')}}">
                         Mostrar usuarios
                       </a>
                     </div>
@@ -237,7 +237,7 @@
                   @if(auth()->user()->can('users.create'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('usuarios.create')}}">
                         Crear usuario
                       </a>
                     </div>

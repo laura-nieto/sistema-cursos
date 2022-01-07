@@ -48,4 +48,23 @@ class User extends Authenticatable
     public function academy(){
         return $this->belongsTo(Academy::class);
     }
+    public function scopeIsDisabled($query,$state)
+    {
+        if ($state) {
+            return $query;
+        }
+        return $query->where('users.active',true);
+    }
+    public function scopeEmail($query,$email)
+    {
+        if ($email) {
+            return $query->where('users.email','ILIKE', "%$email%");
+        }
+    }
+    public function scopeDni($query,$dni)
+    {
+        if ($dni) {
+            return $query->where('users.dni','ILIKE', "$dni%");
+        }
+    }
 }
