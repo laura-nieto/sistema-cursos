@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Models\Academy;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -29,6 +32,7 @@ class UserController extends Controller
         $state = $request->disabled;
 
         $users = $this->user
+            ->yourAcademy()
             ->isDisabled($state)
             ->email($email)
             ->dni($dni)
@@ -46,6 +50,8 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
+        $academias = Academy::userAcademy()->get();
+        //ROLES
         if ($request->user()->hasRole(1)) {
             $roles = Role::all();
         } elseif($request->user()->hasRole(2)){
@@ -53,7 +59,7 @@ class UserController extends Controller
         } else{
             $roles = Role::all()->except([1,2,3]);
         }
-        return view('user.create',compact('roles'));
+        return view('user.create',compact('roles','academias'));
     }
 
     /**
@@ -62,14 +68,15 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        dd($request->role);
         $date = array(
-            'active' => 'true'
+            'active' => 'true',
+            'password' => Hash::make($request->password),
         );
-        $user = $this->user->create($date + $request->all());
+        $user = $this->user->create($date + $request->except(['password']));
         $user->assignRole($request->role);
+        return redirect()->route('usuarios.index')->with('status','El usuario fue creado con éxito');
     }
 
     /**
@@ -78,9 +85,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($user_id)
     {
-        //
+        $user = User::findOrFail($user_id);
+        return view('user.show',compact('user'));
     }
 
     /**
@@ -89,9 +97,20 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Request $request,$user_id)
     {
-        //
+        $user = User::findOrFail($user_id);
+        $academias = Academy::userAcademy()->get();
+        //ROLES
+        if ($request->user()->hasRole(1)) {
+            $roles = Role::all();
+        } elseif($request->user()->hasRole(2)){
+            $roles = Role::all()->except([1,2]);
+        } else{
+            $roles = Role::all()->except([1,2,3]);
+        }
+
+        return view('user.edit',compact('user','roles','academias'));
     }
 
     /**
@@ -101,9 +120,16 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, $user_id)
     {
-        //
+        $user = $this->user::findOrFail($user_id);
+        $date = array(
+            'active' => 'true',
+            'password' => Hash::check($request->password,$user->password) ? $user->password : Hash::make($request->password),
+        );
+        $user->update($date + $request->except(['password']));
+
+        return redirect()->route('usuarios.index')->with('status','El usuario fue modificado');
     }
 
     /**
@@ -112,8 +138,11 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
-        //
+    public function destroy($user_id)
+    {   
+        $user = User::findOrFail($user_id);
+        $user->active = false;
+        $user->save();
+        return redirect()->route('usuarios.index')->with('status','El usuario ha sido eliminado');
     }
 }

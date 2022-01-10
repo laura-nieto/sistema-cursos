@@ -39,7 +39,8 @@ class UserRequest extends FormRequest
                 'email:rfc',
                 Rule::unique('users')->ignore($request->id)],
             'role' => 'required',
-            
+            'password' => 'required|min:6',
+            'academy_id' => Rule::requiredIf( $this->role != 1 && $this->role != 2 )
         ];
     }
 }

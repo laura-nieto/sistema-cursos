@@ -170,7 +170,7 @@
         <div class="row mb-3">
             {{-- @if (auth()->user()->can('branch_offices.index')) --}}
                 <div class="col">
-                    <a href=""
+                    <a href="{{url('/cursos/create?academy_id='.$branchOffice->academy_id)}}"
                         class="btn btn-primary float-right">
                         Crear curso en esta sucursal
                     </a>
@@ -178,7 +178,7 @@
             {{-- @endif --}}
             {{-- @if (auth()->user()->can('branch_offices.create')) --}}
                 <div class="col">
-                    <a href=""
+                    <a href="{{url('cursos?nombreSucursalAsociada=' . $branchOffice->branch_name . '&nombreTipoDeCurso=')}}"
                         class="btn btn-primary float-left">
                         Mostrar cursos planificados
                     </a>

@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'academy_id',
         'name',
         'last_name',
         'email',
@@ -65,6 +66,12 @@ class User extends Authenticatable
     {
         if ($dni) {
             return $query->where('users.dni','ILIKE', "$dni%");
+        }
+    }
+    public function scopeYourAcademy($query)
+    {
+        if (!auth()->user()->hasRole(1) && !auth()->user()->hasRole(2)) {
+            return $query->where('users.academy_id', auth()->user()->academy_id);
         }
     }
 }

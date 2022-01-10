@@ -199,7 +199,7 @@
                   @if(auth()->user()->can('course_types.index'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('tipo_cursos.index')}}">
                         Mostrar tipos de cursos
                       </a>
                     </div>
@@ -207,7 +207,7 @@
                   @if(auth()->user()->can('course_types.create'))
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('tipo_cursos.create')}}">
                           Crear tipo de curso
                         </a>
                     </div>

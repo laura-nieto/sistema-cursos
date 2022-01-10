@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ClassDayController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TypeCourseController;
 use App\Http\Controllers\UserController;
 
 //Auth marcaba un error por no reconocer a Auth, así que escribi
@@ -31,5 +32,7 @@ Route::resource('estudiantes', StudentController::class);
 Route::resource('roles',RoleController::class);
 
 Route::resource('usuarios',UserController::class);
+
+Route::resource('tipo_cursos',TypeCourseController::class);
 
 // Route::resource('/courses',CourseController::class);

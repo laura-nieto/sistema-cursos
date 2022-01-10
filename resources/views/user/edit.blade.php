@@ -4,12 +4,12 @@
     <div class="card">
         <div class="card-header text-center">
             <h3>
-                Registrar usuarios
+                Modificar usuario
             </h3>
         </div>
         <div class="card-body">
             <form
-                action="{{ route('usuarios.store') }}"
+                action="{{ route('usuarios.update',$user) }}"
                 method="POST">
                 <div class="form-group mt-4">
                     <div class="row">
@@ -21,8 +21,8 @@
                                 type="text"
                                 name="name"
                                 class="form-control"
-                                value="{{old('name')}}"
-                                required
+                                value="{{$user->name}}"
+                                
                             >
                         </div>
                         <div class="col">
@@ -33,8 +33,8 @@
                                 type="text"
                                 name="last_name"
                                 class="form-control"
-                                value="{{old('last_name')}}"
-                                required
+                                value="{{$user->last_name}}"
+                                
                             >
                         </div>
                     </div>
@@ -50,9 +50,9 @@
                                 name="dni"
                                 id="dni"
                                 class="form-control"
-                                value="{{old('dni')}}"
+                                value="{{$user->dni}}"
                                 min="1"
-                                required
+                                
                             />
                         </div>
                         <div class="col">
@@ -61,15 +61,12 @@
                                 name="gender"
                                 id="gender"
                                 class="form-control"
-                                required
+                                
                             >
-                                <option value="{{old('gender')}}">
-                                    {{old('gender')}}
-                                </option>
-                                <option value="female">
+                                <option value="female" {{$user->gender == 'female' ? 'selected' : ''}}>
                                     Femenino
                                 </option>
-                                <option value="male">
+                                <option value="male" {{$user->gender == 'male' ? 'selected' : ''}}>
                                     Masculino
                                 </option>
                             </select>
@@ -87,7 +84,7 @@
                                 name="email"
                                 id="mailAlumnoCrear"
                                 class="form-control"
-                                value="{{ old('email') }}"
+                                value="{{ $user->email }}"
                             />
                         </div>
                         <div class="col">
@@ -99,7 +96,7 @@
                                 name="password"
                                 id="password"
                                 class="form-control"
-                                value="{{ old('password') }}"
+                                value="{{ $user->password }}"
                             />
                         </div>
                  
@@ -113,30 +110,32 @@
                                 name="role"
                                 id="role"
                                 class="form-control"
-                                required
-                            >
-                            <option value="">
                                 
+                            >
+                            <option value="{{$user->roles->first()->id}}">
+                                {{$user->getRoleNames()->first() }}
                             </option>
                             @foreach ($roles as $rol)
-                                <option value="{{$rol->id}}" {{$rol->id == old('role') ? 'selected' : ''}}>
+                                <option value="{{$rol->id}}">
                                     {{$rol->name}}
                                 </option>
                             @endforeach
                             </select>
                         </div>
-                        <div class="col col-6  {{ old('role') == null || old('role') == 1 ||  old('role') == 2 ? 'd-none' : ''}}" id="academies">
+                        <div class="col col-6 {{$user->academy_id == null ? 'd-none' : ''}}" id="academies">
                             <label for="academy">Academia:</label>
                             <select
                                 name="academy_id"
                                 id="academy"
                                 class="form-control"
                             >
-                            <option value="">
-                                
-                            </option>
+                            @if ($user->academy_id != null)   
+                                <option value="{{$user->academy_id}}">
+                                    {{$user->academy->name}}
+                                </option>
+                            @endif
                             @foreach ($academias as $academia)
-                                <option value="{{$academia->id}}" {{$academia->id == old('academy_id') ? 'selected' : ''}}>
+                                <option value="{{$academia->id}}">
                                     {{$academia->name}}
                                 </option>
                             @endforeach
@@ -146,8 +145,10 @@
                 </div>
                     <div class="row justify-content-center">
                         @csrf
+                        @method('PUT')
+                        <input type="number" name="id" value = {{$user->id}} style="display: none">
                         <button type="submit" class="btn btn-sm btn-primary mt-3 p-3">
-                            Registrar usuario
+                            Modificar usuario
                         </button>
                     </div>  
             </form>

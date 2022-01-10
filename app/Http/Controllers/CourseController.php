@@ -178,7 +178,7 @@ class CourseController extends Controller
     }
     public function inscripcion(Request $prueba)
     {
-
+        
         dd($prueba->id);
         return 'Aca se abrira la planilla de inscripcion, esto es prueba: '.$prueba;
     }

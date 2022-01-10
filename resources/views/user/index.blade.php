@@ -90,7 +90,7 @@
                             <td>{{ $user->email }}</td>
                         @if(auth()->user()->can('users.edit'))
                             <td>
-                                <a href="{{ route('usuarios.edit', $user) }}"
+                                <a href="{{ route('usuarios.edit', $user->id) }}"
                                     class="btn btn-primary btn-sm">
                                     Editar
                                 </a>
@@ -102,7 +102,7 @@
                         @endif
                         @if(auth()->user()->can('users.index'))    
                             <td>
-                                <a  href="{{ route('usuarios.show', $user ) }}"
+                                <a  href="{{ route('usuarios.show', $user->id ) }}"
                                     class="btn btn-info btn-sm">
                                     Detalles
                                 </a>
@@ -113,14 +113,14 @@
                         @endif
                         @if(auth()->user()->can('users.destroy') && $user->active)
                             <td>
-                                <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
+                                <form action="{{ route('usuarios.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <input 
                                         type="submit"
                                         value="Eliminar"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Para eliminar un alumno, no puede estar inscrito a ningún curso ni tener certificados vigentes.')"/>
+                                        onclick="return confirm('¿Desea eliminar el usuario?.')"/>
                                 </form>
                             </td>
                         @else

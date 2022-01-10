@@ -64,4 +64,10 @@ class Academy extends Model
     {
         return substr($this->phone,-8,strlen($this->phone));
     }
+    public function scopeUserAcademy($query)
+    {
+        if (!auth()->user()->hasRole(1) && !auth()->user()->hasRole(2)) {
+            return $query->where('academies.id', auth()->user()->academy_id);
+        }
+    }
 }
