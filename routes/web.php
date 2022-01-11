@@ -6,6 +6,7 @@ use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\BranchOfficeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ClassDayController;
+use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TypeCourseController;
@@ -24,6 +25,7 @@ Route::resource('sucursales', BranchOfficeController::class);
 Route::resource('cursos', CourseController::class);
 
 Route::get('inscripcion/{id}',[CourseController::class,'inscripcion'])->name('cursos.inscripcion');
+Route::post('inscripcion/{id}/cursos',[CourseController::class,'elegirCurso'])->name('cursos.elegir');
 
 Route::resource('horarios', ClassDayController::class);
 
@@ -35,4 +37,6 @@ Route::resource('usuarios',UserController::class);
 
 Route::resource('tipo_cursos',TypeCourseController::class);
 
-// Route::resource('/courses',CourseController::class);
+// LLAMADA AXIOS
+Route::post('tipo_curso/{id}',[PruebaController::class,'obtenerAcademias']);
+Route::post('tipo_curso/{id}/academia/{idAcademia}',[PruebaController::class,'obtenerSucursales']);

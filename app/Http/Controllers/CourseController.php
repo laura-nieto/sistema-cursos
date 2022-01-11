@@ -6,6 +6,9 @@ use App\Models\Course;
 use App\Models\Academy;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
+use App\Models\Academy_course_type;
+use App\Models\Course_type;
+use App\Models\Student;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
@@ -178,8 +181,27 @@ class CourseController extends Controller
     }
     public function inscripcion(Request $prueba)
     {
-        
-        dd($prueba->id);
-        return 'Aca se abrira la planilla de inscripcion, esto es prueba: '.$prueba;
+        $student = Student::findOrFail($prueba->id);
+        if (auth()->user()->academy_id === null) {
+            $tiposCursos = Course_type::orderBy('course_type_name')->get();
+        }else{
+            $tiposCursos = Academy::findOrFail(auth()->user()->academy_id)->coursesType;
+        }
+        return view('inscription.inscription',compact('student','tiposCursos'));
+    }
+    public function elegirCurso(Request $request,$idAlumno)
+    {
+        $cursos = Course::where('isActive',true)
+            ->where('branch_office_id',$request->branch_office_id)
+            ->where('type_course_id',$request->type_course_id)
+            ->get();
+        foreach ($cursos as $curso) {
+            if ($curso->students->count() < $curso->student_capacity) {
+                $cursos_disponibles[] = $curso;
+            }
+        }
+        $student = Student::findOrFail($idAlumno);
+        return view('inscription.indexCourses',compact('cursos_disponibles','student'));
+        dd($cursos_disponibles);
     }
 }
