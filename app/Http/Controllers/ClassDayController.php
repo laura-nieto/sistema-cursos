@@ -284,4 +284,30 @@ class ClassDayController extends Controller
     {
         //
     }
+
+    public function vistaPresente($idDay)
+    {
+        $classDay = Class_day::findOrFail($idDay);
+        $students = $classDay->course->students;
+        return view('classDay.present', compact('classDay','students'));
+    }
+    public function guardarPresente(Request $request, $idDay)
+    {
+        $classDay = Class_day::findOrFail($idDay);
+        $presentes = $classDay->course->students->whereIn('id',$request->presentes);
+        $ausentes = $classDay->course->students->except($request->presentes);
+        foreach ($ausentes as $ausente) {
+            $ausente->classDays()->attach($idDay,['attendance'=>false]);
+        }
+        foreach ($presentes as $presente) {
+            $presente->classDays()->attach($idDay,['attendance'=>true]);
+        }
+        return redirect()->route('home')->with('status','Presentes guardados');
+    }
+    public function verPresentes($idDay)
+    {
+        $classDay = Class_day::findOrFail($idDay);
+        $students = $classDay->students;
+        return view('classDay.showPresents',compact('classDay','students'));
+    }
 }

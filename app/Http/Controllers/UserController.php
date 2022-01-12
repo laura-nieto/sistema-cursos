@@ -57,7 +57,7 @@ class UserController extends Controller
         } elseif($request->user()->hasRole(2)){
             $roles = Role::all()->except([1,2]);
         } else{
-            $roles = Role::all()->except([1,2,3]);
+            $roles = Role::all()->except([1,2,3,5]);
         }
         return view('user.create',compact('roles','academias'));
     }

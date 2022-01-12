@@ -24,7 +24,7 @@ class Class_day extends Model
     }
     public function students()
     {
-        return $this->belongsToMany(Student::class,'class_day_students','class_day_id','student_id');
+        return $this->belongsToMany(Student::class,'class_day_students','class_day_id','student_id')->withPivot('attendance');
     }
     public function getGetDateAttribute()
     {

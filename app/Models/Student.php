@@ -36,7 +36,7 @@ class Student extends Model
     }
     public function classDays()
     {
-        return $this->belongsToMany(Class_day::class,'class_day_students','student_id','class_day_id');
+        return $this->belongsToMany(Class_day::class,'class_day_students','student_id','class_day_id')->withPivot('attendance');
     }
     public function scopeIsDisabled($query,$state)
     {

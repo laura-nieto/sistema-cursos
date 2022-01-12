@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         Course::factory(100)->create();
         Student::factory(4)->create();
         // Certificate::factory(6)->create();
+        //$this->call(CourseStudentSeeder::class);
     }
 }

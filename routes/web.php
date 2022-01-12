@@ -26,6 +26,14 @@ Route::resource('cursos', CourseController::class);
 
 Route::get('inscripcion/{id}',[CourseController::class,'inscripcion'])->name('cursos.inscripcion');
 Route::post('inscripcion/{id}/cursos',[CourseController::class,'elegirCurso'])->name('cursos.elegir');
+Route::post('inscripcion/{id}/curso/{idCurso}',[CourseController::class,'inscribir'])->name('cursos.inscribir');
+Route::delete('curso/{id}/alumno/{idAlumno}',[CourseController::class,'bajaAlumno'])->name('cursos.bajaAlumno');
+// Ruta de inscripcion cuando se pre-elije el curso
+Route::get('inscripcion/{id}/alumnos',[CourseController::class,'inscripcionAlumnos'])->name('alumnos.inscripcion');
+
+Route::get('dia/{id}',[ClassDayController::class,'vistaPresente']);
+Route::post('dia/{id}',[ClassDayController::class,'guardarPresente']);
+Route::get('presentes/dia/{id}',[ClassDayController::class,'verPresentes']);
 
 Route::resource('horarios', ClassDayController::class);
 

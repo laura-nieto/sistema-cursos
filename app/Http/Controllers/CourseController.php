@@ -191,17 +191,53 @@ class CourseController extends Controller
     }
     public function elegirCurso(Request $request,$idAlumno)
     {
-        $cursos = Course::where('isActive',true)
+        $cursos_disponibles = Course::where('isActive',true)
             ->where('branch_office_id',$request->branch_office_id)
             ->where('type_course_id',$request->type_course_id)
+            ->orderBy('id','desc')
             ->get();
-        foreach ($cursos as $curso) {
-            if ($curso->students->count() < $curso->student_capacity) {
-                $cursos_disponibles[] = $curso;
-            }
-        }
         $student = Student::findOrFail($idAlumno);
         return view('inscription.indexCourses',compact('cursos_disponibles','student'));
-        dd($cursos_disponibles);
+    }
+    public function inscribir($idAlumno,$idCurso)
+    {
+        $course = Course::findOrFail($idCurso);
+
+        /* En caso de que se ocupe el últipo cupo */
+        $validator = Validator::make(['curso' => $idCurso], [
+            'curso' => [
+                function ($attribute, $value, $fail) {
+                    $course = $this->course->findOrFail($value);
+                    if ($course->students->count() >= $course->student_capacity) {
+                        $fail('Parece que ocurrió un error');
+                    }
+                },
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('cursos.elegir')
+                ->withErrors($validator);
+        }
+
+        $course->students()->attach($idAlumno);
+        return redirect()->route('home')->with('status','Alumno inscripto con éxito');
+    }
+    public function bajaAlumno($idCurso,$idAlumno)
+    {
+        $course = Course::findOrFail($idCurso);
+        $course->students()->detach($idAlumno);
+        return back()->with('status','El alumno fue dado de baja');
+    }
+    public function inscripcionAlumnos(Request $request,$idCurso)
+    {
+        $dni = $request->dniDelEstudiantes;
+        $email = $request->emailDelEstudiante;
+        $students = Student::where('isActive',true)
+            ->email($email)
+            ->dni($dni)
+            ->orderBy('id','desc')
+            ->paginate(20)
+            ->withQueryString();
+        return view('inscription.indexStudents',compact('students','request','idCurso'));
     }
 }

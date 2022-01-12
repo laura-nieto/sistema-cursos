@@ -128,7 +128,7 @@
             </div>
             <div class="col-sm-3">
                 <a class="btn btn-primary"
-                href="{{ route('cursos.inscripcion',['id'=>$student,'esto'=>'prueba']) }}">
+                href="{{ route('cursos.inscripcion',['id'=>$student]) }}">
                 Inscribir a un curso
             </a>
             </div>

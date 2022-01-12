@@ -221,6 +221,9 @@
                     <th class="col-4 text-center">
                         Hasta
                     </th>
+                    <th>
+                        &nbsp
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -234,6 +237,13 @@
                     </td>
                     <td class="text-center">
                         {{ $classDay->get_end_date }}
+                    </td>
+                    <td class="text-center">
+                        @if($classDay->students->isEmpty())
+                            <a href="{{ url('dia/'.$classDay->id) }}" class="btn btn-sm btn-info p-2">Presentes</a>
+                        @else
+                            <a href="{{ url('presentes/dia/'.$classDay->id)}}" class="btn btn-sm btn-info px-3">Ver</a>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -265,21 +275,21 @@
                 Es necesario hacer una planificación para inscribir alumnos.
             </span>
         </div>
-        @elseif($course->students->isEmpty() && $course->isActive)
-    <div class="row d-flex justify-content-center">
-        <a class="btn btn-sm btn-primary p-2" href="">
-            Inscribir alumnos
-        </a>
-    </div>
+    @elseif($course->students->isEmpty() && $course->isActive)
+        <div class="row d-flex justify-content-center">
+            <a class="btn btn-sm btn-primary p-2" href="{{route('alumnos.inscripcion',$course->id)}}">
+                Inscribir alumnos
+            </a>
+        </div>
     @elseif(!$course->isActive)
         <div class="row d-flex justify-content-center">
             <h6>
                 Este curso ha sido desactivado
             </h6>
         </div>
-        @else
+    @else
         <h6 class="text-center">
-            {{$course->student_capacity}}/{{$course->students->count()}}
+            {{$course->students->count()}}/{{$course->student_capacity}}
         </h6>
         <table class="table">
             <thead>
@@ -317,7 +327,7 @@
                         </a>
                     </td>
                     <td>
-                        <form action=""
+                        <form action="{{route('cursos.bajaAlumno',[$course->id,$student->id])}}"
                             method="POST"
                             class="d-flex justify-content-center"
                             >

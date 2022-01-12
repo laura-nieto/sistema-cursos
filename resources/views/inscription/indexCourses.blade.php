@@ -35,21 +35,26 @@
                         {{$course->modality}}
                     </td>
                     <td class="text-center">
-                        @if ($course->classDays === [])
+                        @if ($course->classDays->isEmpty())
                             Sin Planificar
                         @else
                             <div>
                                 @foreach ($course->classDays as $class)
-                                    <h6>{{$class->hour_range->from()}} - {{$class->hour_range->to()}}</h6>
+                                    <h6>{{$class->get_date}} {{$class->get_start_date}} - {{$class->get_end_date}}</h6>
                                 @endforeach
                             </div>
                         @endif
                     </td>
                     <td class="text-center">
-                        @if ($course->classDays != [])
-                            <button type="submit" class="btn btn-info">
-                                Inscribir
-                            </button>
+                        @if ($course->classDays->isNotEmpty() && $course->students->count() < $course->student_capacity)
+                            <form action="{{route('cursos.inscribir',[$student->id,$course->id])}}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-info">
+                                    Inscribir
+                                </button>
+                            </form>
+                        @else
+                            No disponible
                         @endif
                     </td>
                 </tr>

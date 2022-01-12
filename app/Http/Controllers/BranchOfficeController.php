@@ -13,10 +13,10 @@ class BranchOfficeController extends Controller
     protected $branchOffice;
     public function __construct(Branch_office $branchOffice)
     {
-        $this->middleware('permission:users.index')->only('index','show');
-        $this->middleware('permission:users.create')->only('create','store');
-        $this->middleware('permission:users.edit')->only('edit','update');
-        $this->middleware('permission:users.destroy')->only('destroy');
+        $this->middleware('permission:branch_offices.index')->only('index','show');
+        $this->middleware('permission:branch_offices.create')->only('create','store');
+        $this->middleware('permission:branch_offices.edit')->only('edit','update');
+        $this->middleware('permission:branch_offices.destroy')->only('destroy');
         $this->branchOffice = $branchOffice;
     }
     /**
