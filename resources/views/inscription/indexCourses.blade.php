@@ -46,7 +46,7 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        @if ($course->classDays->isNotEmpty() && $course->students->count() < $course->student_capacity)
+                        @if ($course->classDays->isNotEmpty() && $course->students->count() < $course->student_capacity && !$course->students->contains($student->id))
                             <form action="{{route('cursos.inscribir',[$student->id,$course->id])}}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-info">

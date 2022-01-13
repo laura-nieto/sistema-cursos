@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Academy;
-use App\Models\Course;
 use App\Models\Course_type;
 use Illuminate\Http\Request;
 
-class PruebaController extends Controller
+class ConsultasController extends Controller
 {
     public function obtenerAcademias($tipoID)
     {
@@ -27,10 +26,5 @@ class PruebaController extends Controller
             }
         }
         return response()->json($response);
-    }
-    public function obtenerCursos($tipoID,$academiaID,$sucursalID)
-    {
-        $cursos = Course::where('branch_office_id',$sucursalID)->where('type_course_id',$tipoID)->where('isActive',true)->get();
-        return response()->json($cursos);
     }
 }

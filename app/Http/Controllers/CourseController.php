@@ -16,6 +16,7 @@ class CourseController extends Controller
     protected $course;
     public function __construct(Course $course)
     {
+        $this->middleware('auth');
         $this->middleware('permission:courses.index')->only('index','show');
         $this->middleware('permission:courses.create')->only('create','store');
         $this->middleware('permission:courses.edit')->only('edit','update');
@@ -103,8 +104,16 @@ class CourseController extends Controller
     public function show($courseId)
     {
         $course = $this->course::findOrfail($courseId);
+        foreach ($course->classDays as $class) {
+            if ($class->students->isEmpty()) {
+               $certificate = false;
+               break;
+            }else{
+                $certificate = true;
+            }
+        }
 
-        return view('course.show',compact('course'));
+        return view('course.show',compact('course','certificate'));
     }
 
     /**

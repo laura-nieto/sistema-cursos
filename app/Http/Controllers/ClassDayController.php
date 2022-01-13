@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Class_day;
+use App\Models\Class_day_student;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Belamov\PostgresRange\Ranges\TimestampRange;
@@ -16,6 +17,10 @@ class ClassDayController extends Controller
     protected $hoursCounter = "00:00:00";
     protected $days = array();
     
+    public function __construct(Class_day $class_day)
+    {
+        $this->middleware('auth');
+    }
     public function setHoursCounter($hoursCounter)
     {
         $this->hoursCounter = $hoursCounter;
@@ -285,13 +290,13 @@ class ClassDayController extends Controller
         //
     }
 
-    public function vistaPresente($idDay)
+    public function vistaPresentes($idDay)
     {
         $classDay = Class_day::findOrFail($idDay);
         $students = $classDay->course->students;
         return view('classDay.present', compact('classDay','students'));
     }
-    public function guardarPresente(Request $request, $idDay)
+    public function guardarPresentes(Request $request, $idDay)
     {
         $classDay = Class_day::findOrFail($idDay);
         $presentes = $classDay->course->students->whereIn('id',$request->presentes);
@@ -302,12 +307,30 @@ class ClassDayController extends Controller
         foreach ($presentes as $presente) {
             $presente->classDays()->attach($idDay,['attendance'=>true]);
         }
-        return redirect()->route('home')->with('status','Presentes guardados');
+        return redirect()->route('cursos.show',$classDay->course->id)->with('status','Presentes guardados');
     }
     public function verPresentes($idDay)
     {
         $classDay = Class_day::findOrFail($idDay);
         $students = $classDay->students;
         return view('classDay.showPresents',compact('classDay','students'));
+    }
+    public function editarPresentes(Class_day $classDay)
+    {
+        $students = $classDay->students;
+        return view('classDay.editPresents',compact('classDay','students'));
+    }
+    public function updatePresentes(Request $request, Class_day $classDay)
+    {
+        $presentes = $classDay->course->students->whereIn('id',$request->presentes);
+        $ausentes = $classDay->course->students->except($request->presentes);
+        $classDay->students()->detach(); //BORRAR TODOS LOS REGISTROS
+        foreach ($ausentes as $ausente) {
+            $ausente->classDays()->attach($classDay->id,['attendance'=>false]);
+        }
+        foreach ($presentes as $presente) {
+            $presente->classDays()->attach($classDay->id,['attendance'=>true]);
+        }
+        return redirect()->route('cursos.show',$classDay->course->id)->with('status','Presentes guardados');
     }
 }

@@ -227,7 +227,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($course->classDays as $keys => $classDay)
+            @foreach ($course->classDays as $classDay)
                 <tr>
                     <td class="text-center">
                         {{$classDay->get_date}}
@@ -242,7 +242,10 @@
                         @if($classDay->students->isEmpty())
                             <a href="{{ url('dia/'.$classDay->id) }}" class="btn btn-sm btn-info p-2">Presentes</a>
                         @else
-                            <a href="{{ url('presentes/dia/'.$classDay->id)}}" class="btn btn-sm btn-info px-3">Ver</a>
+                            <div class="d-flex">
+                                <a href="{{ url('presentes/dia/'.$classDay->id)}}" class="btn btn-sm btn-info px-3 mr-2">Ver</a>
+                                <a href="{{ url('dia/'.$classDay->id.'/edit')}}" class="btn btn-sm btn-primary px-3">Editar</a>
+                            </div>
                         @endif
                     </td>
                 </tr>
@@ -250,9 +253,18 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center mb-3">
-            <a class="btn btn-primary" href="{{ route('horarios.edit',$course) }}">
-                Editar planificación
-            </a>
+            @if($certificate)
+                <form action="{{ route('certificar',$course) }}" method="post">
+                    @csrf
+                    <button class="btn btn-primary">
+                        Certificar
+                    </button>
+                </form>
+            @else
+                <a class="btn btn-primary" href="{{ route('horarios.edit',$course) }}">
+                    Editar planificación
+                </a>
+            @endif
         </div>
         @endif
     </div>

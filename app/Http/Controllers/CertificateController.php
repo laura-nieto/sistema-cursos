@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificate;
+use App\Models\Class_day_student;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -88,5 +90,19 @@ class CertificateController extends Controller
     public function destroy(Certificate $certificate)
     {
         //
+    }
+
+    public function certificar(Course $course)
+    {
+        $presentes = $course->students;
+       
+        foreach ($course->classDays as $classDay) {
+            foreach ($classDay->students as $item => $student) {
+                if ($student->pivot->attendance === false) {
+                    $presentes->forget($item);
+                }
+            }
+        }
+        dd($presentes);
     }
 }

@@ -22,6 +22,7 @@ class CreateCoursesTable extends Migration
             $table->enum('modality',['Virtual','Presencial']);
             $table->date('expiration');
             $table->boolean('isActive');
+            $table->boolean('certificated')->default(0);
             $table->timestamps();
 
             $table->foreign('branch_office_id')

@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\BranchOfficeController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ClassDayController;
-use App\Http\Controllers\PruebaController;
+use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TypeCourseController;
@@ -31,8 +32,10 @@ Route::delete('curso/{id}/alumno/{idAlumno}',[CourseController::class,'bajaAlumn
 // Ruta de inscripcion cuando se pre-elije el curso
 Route::get('inscripcion/{id}/alumnos',[CourseController::class,'inscripcionAlumnos'])->name('alumnos.inscripcion');
 
-Route::get('dia/{id}',[ClassDayController::class,'vistaPresente']);
-Route::post('dia/{id}',[ClassDayController::class,'guardarPresente']);
+Route::get('dia/{id}',[ClassDayController::class,'vistaPresentes']);
+Route::post('dia/{id}',[ClassDayController::class,'guardarPresentes']);
+Route::get('dia/{classDay}/edit',[ClassDayController::class,'editarPresentes']);
+Route::post('dia/{classDay}/edit',[ClassDayController::class,'updatePresentes']);
 Route::get('presentes/dia/{id}',[ClassDayController::class,'verPresentes']);
 
 Route::resource('horarios', ClassDayController::class);
@@ -46,5 +49,8 @@ Route::resource('usuarios',UserController::class);
 Route::resource('tipo_cursos',TypeCourseController::class);
 
 // LLAMADA AXIOS
-Route::post('tipo_curso/{id}',[PruebaController::class,'obtenerAcademias']);
-Route::post('tipo_curso/{id}/academia/{idAcademia}',[PruebaController::class,'obtenerSucursales']);
+Route::post('tipo_curso/{id}',[ConsultasController::class,'obtenerAcademias']);
+Route::post('tipo_curso/{id}/academia/{idAcademia}',[ConsultasController::class,'obtenerSucursales']);
+
+//PRUEBAS CERTIFICADOS
+Route::post('certificar/{course}',[CertificateController::class,'certificar'])->name('certificar');

@@ -23,6 +23,17 @@ class DatabaseSeeder extends Seeder
         //RoleSeeder create 4(four) user with roles
         Academy::factory(6)->create();
         
+        // Academy::create([
+        //     'name'=>'Academia 1',
+        //     'street'=>'Av J.B alberdo',
+        //     'streetHeight'=>strval(rand(1,6000)),
+        //     'responsible'=>'Jose',
+        //     'phone'=>strval(mt_rand()),
+        //     'email' => 'admin@admin.com',
+        //     // 'email_verified_at' => now(),
+        //     'noc' => 'asd',
+        //     'isActive' => true,
+        // ]);
         $this->call(RoleSeeder::class);
         $this->call(CourseTypeSeeder::class);
         
