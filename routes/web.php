@@ -12,6 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TypeCourseController;
 use App\Http\Controllers\UserController;
+use App\Models\Certificate;
 
 //Auth marcaba un error por no reconocer a Auth, así que escribi
 // use Illuminate\Support\Facades\Auth; verificar si funciona
@@ -48,9 +49,9 @@ Route::resource('usuarios',UserController::class);
 
 Route::resource('tipo_cursos',TypeCourseController::class);
 
+Route::resource('certificados',CertificateController::class)->only(['index', 'show']);
+Route::post('certificar/{course}',[CertificateController::class,'certificar'])->name('certificar');
+
 // LLAMADA AXIOS
 Route::post('tipo_curso/{id}',[ConsultasController::class,'obtenerAcademias']);
 Route::post('tipo_curso/{id}/academia/{idAcademia}',[ConsultasController::class,'obtenerSucursales']);
-
-//PRUEBAS CERTIFICADOS
-Route::post('certificar/{course}',[CertificateController::class,'certificar'])->name('certificar');

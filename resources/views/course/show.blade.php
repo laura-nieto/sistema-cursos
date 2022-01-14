@@ -244,7 +244,7 @@
                         @else
                             <div class="d-flex">
                                 <a href="{{ url('presentes/dia/'.$classDay->id)}}" class="btn btn-sm btn-info px-3 mr-2">Ver</a>
-                                <a href="{{ url('dia/'.$classDay->id.'/edit')}}" class="btn btn-sm btn-primary px-3">Editar</a>
+                                {{-- <a href="{{ url('dia/'.$classDay->id.'/edit')}}" class="btn btn-sm btn-primary px-3">Editar</a> --}}
                             </div>
                         @endif
                     </td>
@@ -253,14 +253,14 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center mb-3">
-            @if($certificate)
+            @if($certificate && $course->certificated === false)
                 <form action="{{ route('certificar',$course) }}" method="post">
                     @csrf
                     <button class="btn btn-primary">
                         Certificar
                     </button>
                 </form>
-            @else
+            @elseif(!$certificate)
                 <a class="btn btn-primary" href="{{ route('horarios.edit',$course) }}">
                     Editar planificación
                 </a>

@@ -9,21 +9,33 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    public function __construct()
+    protected $certificate;
+    public function __construct(Certificate $certificate)
     {
         $this->middleware('permission:certificates.index')->only('index','show');
         $this->middleware('permission:certificates.create')->only('create','store');
         $this->middleware('permission:certificates.edit')->only('edit','update');
         $this->middleware('permission:certificates.destroy')->only('destroy');
+        $this->certificate = $certificate;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $lastname = $request->apellidoEstudiante;
+        $dni = $request->dniDelEstudiante;
+
+        $certificates = $this->certificate
+            ->lastname($lastname)
+            ->dni($dni)
+            ->orderBy('id','desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('certificate.index',compact('certificates','request'));
     }
 
     /**
@@ -53,9 +65,12 @@ class CertificateController extends Controller
      * @param  \App\Models\Certificate  $certificate
      * @return \Illuminate\Http\Response
      */
-    public function show(Certificate $certificate)
+    public function show(Certificate $certificado)
     {
-        //
+        $alumno = $certificado->student;
+        $curso = $certificado->course;
+        $dias = $certificado->course->classDays;
+        return view('certificate.show',compact('certificado','alumno','curso','dias'));
     }
 
     /**
@@ -94,15 +109,24 @@ class CertificateController extends Controller
 
     public function certificar(Course $course)
     {
-        $presentes = $course->students;
-       
+        $presentes = $course->students->keyBy->id;
+        //REMOVER AUSENTES
         foreach ($course->classDays as $classDay) {
-            foreach ($classDay->students as $item => $student) {
+            foreach ($classDay->students as $student) {
                 if ($student->pivot->attendance === false) {
-                    $presentes->forget($item);
+                    $presentes->forget($student->id);
                 }
             }
         }
-        dd($presentes);
+        //CERTIFICADOS
+        $presentes->each(function($presente,$item) use($course){
+            $certificado = new Certificate;
+            $certificado->student_id = $presente->id;
+            $certificado->course_id = $course->id;
+            $certificado->save();
+        });
+        $course->certificated = true;
+        $course->save();
+        return redirect()->route('cursos.show',$course->id)->with('status','Se realizó la certificación del curso');
     }
 }

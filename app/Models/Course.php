@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -67,5 +68,9 @@ class Course extends Model
             return $query;
         }
         return $query->where('academy_id',"$userAuth->academy_id");
+    }
+    public function getSimpleHours()
+    {
+        return Carbon::parse($this->total_hours)->format('H');
     }
 } 

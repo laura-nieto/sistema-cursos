@@ -16,4 +16,21 @@ class Certificate extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function scopeDni($query,$dni)
+    {
+        if ($dni) {
+            $query->with('student')->whereHas('student',function($query)use($dni){
+                return $query->where('students.dni','ILIKE', "$dni%");
+            });
+        }
+    }
+    public function scopeLastname($query,$lastname)
+    {
+        if ($lastname) {
+            $query->with('student')->whereHas('student',function($query)use($lastname){
+                $query->where('students.last_name','ILIKE', "%$lastname%");
+            });
+        }
+    }
 }

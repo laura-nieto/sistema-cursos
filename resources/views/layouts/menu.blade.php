@@ -80,7 +80,7 @@
                   <div id="menuCertificado" class="panel-collapse collapse">
                     <div class="panel-body">
                       <a class="btn btn-submenu btn-block text-left p-2 pl-5"
-                        href="">
+                        href="{{route('certificados.index')}}">
                         Mostrar certificados
                       </a>
                     </div>
