@@ -125,7 +125,7 @@ class UserController extends Controller
         $user = $this->user::findOrFail($user_id);
         $date = array(
             'active' => 'true',
-            'password' => Hash::check($request->password,$user->password) ? $user->password : Hash::make($request->password),
+            'password' => $request->password === $user->password ? $user->password : Hash::make($request->password),
         );
         $user->update($date + $request->except(['password']));
 

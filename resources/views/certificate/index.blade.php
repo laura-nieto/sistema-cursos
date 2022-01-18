@@ -38,6 +38,7 @@
                         <th class="col-3">DNI</th>
                         <th class="col-3">Apellido</th>
                         <th class="col-3">Nombre</th>
+                        <th class="col-2">Día</th>
                         <th class="col-2" colspan="2"> &nbsp </th>
                     </tr>
                 </thead>
@@ -48,6 +49,7 @@
                             <td>{{ $certificate->student->dni }}</td>
                             <td>{{ $certificate->student->last_name }}</td>
                             <td>{{ $certificate->student->name }}</td>
+                            <td>{{ \Carbon\Carbon::parse($certificate->created_at)->format('d-m-Y') }}</td>
                             <td>
                                 @can('certificates.index')
                                     <a href="{{ route('certificados.show', $certificate ) }}" class="btn btn-info btn-sm">
