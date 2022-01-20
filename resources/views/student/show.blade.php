@@ -153,18 +153,25 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($student->courses as $course)
-                <tr>
-                    <td class="text-center">
-                        {{$course->id}}
-                    </td>
-                    <td>
-                        {{$course->courseType->course_type_name}}
-                    </td>
-                    <td>
-                        {{$course->expiration}}
-                    </td>
-                </tr>
+                @foreach ($student->courses->sortDesc() as $course)
+                    <tr>
+                        <td class="text-center">
+                            {{$course->id}}
+                        </td>
+                        <td>
+                            {{$course->courseType->course_type_name}}
+                        </td>
+                        <td>
+                            {{$course->expiration}}
+                        </td>
+                        <td>
+                            @if ($course->certificates()->where('student_id',$student->id)->exists())
+                                <a href="{{route('certificados.show',$course->certificates()->where('student_id',$student->id)->first()->id)}}" class="btn btn-sm btn-info px-3 mr-2">Ver</a>
+                            @else
+                                No certificado
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

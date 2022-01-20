@@ -132,6 +132,7 @@
                         @foreach ($courseTypes as $courseType)
                         <div class="form-check form-check-inline">
                             <input 
+                                id="courseType{{$courseType->id}}"
                                 class="form-check-input"
                                 type="checkbox"
                                 name="tiposDeCurso[]"

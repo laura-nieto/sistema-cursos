@@ -38,12 +38,12 @@ class DatabaseSeeder extends Seeder
         $this->call(CourseTypeSeeder::class);
         
         //Need create Academy before implement AcademyCourseTypeSeer,for Academy_id
-        $this->call(AcademyCourseTypeSeeder::class);
+        //$this->call(AcademyCourseTypeSeeder::class);
         
-        Branch_office::factory(40)->create();
+        //Branch_office::factory(40)->create();
         
-        Course::factory(100)->create();
-        Student::factory(4)->create();
+        //Course::factory(100)->create();
+        //Student::factory(4)->create();
         // Certificate::factory(6)->create();
         //$this->call(CourseStudentSeeder::class);
     }

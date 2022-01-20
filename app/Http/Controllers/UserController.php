@@ -126,8 +126,10 @@ class UserController extends Controller
         $date = array(
             'active' => 'true',
             'password' => $request->password === $user->password ? $user->password : Hash::make($request->password),
+            'academy_id' => $request->role === "1" || $request->role === "2" ? null : $request->academy_id,
         );
-        $user->update($date + $request->except(['password']));
+        $user->update($date + $request->except(['password','academy_id']));
+        $user->syncRoles([$request->role]);
 
         return redirect()->route('usuarios.index')->with('status','El usuario fue modificado');
     }

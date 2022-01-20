@@ -52,13 +52,24 @@
         //OBTENER ACADEMIAS
         select_tipoCursos.addEventListener('change',()=>{
             let url =  `{{url('/tipo_curso/${select_tipoCursos.value}')}}`
+            select_academias.innerHTML = "";
+            select_sucursales.innerHTML = "";
             axios.post(url)
             .then(response =>{
-                let opciones ="<option value=''>Elegir</option>";
-                response.data.forEach(academia => {
-                    opciones+= '<option value="'+academia.id+'">'+academia.name+'</option>';
-                })
-                select_academias.innerHTML = opciones;
+                if (!Array.isArray(response.data)) {
+                    for(let i in response.data){
+                        // var opciones ="<option value=''>Elegir</option>";
+                        var opciones = '<option value="'+response.data[i].id+'">'+response.data[i].name+'</option>';
+                        select_academias.innerHTML = opciones;
+                        select_academias.dispatchEvent(new Event('change'));
+                    }
+                }else{
+                    var opciones ="<option value=''>Elegir</option>";
+                    response.data.forEach(academia => {
+                        opciones += '<option value="'+academia.id+'">'+academia.name+'</option>';
+                    })
+                    select_academias.innerHTML = opciones;
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -67,6 +78,7 @@
         //OBTENER SUCURSALES
         select_academias.addEventListener('change',()=>{
             let url =  `{{url('/tipo_curso/${select_tipoCursos.value}/academia/${select_academias.value}')}}`
+            select_sucursales.innerHTML = "";
             axios.post(url)
             .then(response =>{
                 let opciones ="<option value=''>Elegir</option>";

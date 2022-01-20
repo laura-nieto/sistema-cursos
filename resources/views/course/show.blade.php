@@ -240,11 +240,12 @@
                     </td>
                     <td class="text-center">
                         @if($classDay->students->isEmpty())
-                            <a href="{{ url('dia/'.$classDay->id) }}" class="btn btn-sm btn-info p-2">Presentes</a>
+                            @if($classDay->get_date === $today)
+                                <a href="{{ url('dia/'.$classDay->id) }}" class="btn btn-sm btn-info p-2">Presentes</a>
+                            @endif
                         @else
                             <div class="d-flex">
                                 <a href="{{ url('presentes/dia/'.$classDay->id)}}" class="btn btn-sm btn-info px-3 mr-2">Ver</a>
-                                {{-- <a href="{{ url('dia/'.$classDay->id.'/edit')}}" class="btn btn-sm btn-primary px-3">Editar</a> --}}
                             </div>
                         @endif
                     </td>

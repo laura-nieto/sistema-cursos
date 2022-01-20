@@ -129,8 +129,9 @@
                                 id="academy"
                                 class="form-control"
                             >
+                            <option value=""></option>
                             @if ($user->academy_id != null)   
-                                <option value="{{$user->academy_id}}">
+                                <option value="{{$user->academy_id}}" selected>
                                     {{$user->academy->name}}
                                 </option>
                             @endif
