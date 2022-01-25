@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Certificate;
 use App\Models\Class_day_student;
 use App\Models\Course;
+use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -16,6 +18,7 @@ class CertificateController extends Controller
         $this->middleware('permission:certificates.create')->only('create','store');
         $this->middleware('permission:certificates.edit')->only('edit','update');
         $this->middleware('permission:certificates.destroy')->only('destroy');
+        $this->middleware('jwt.auth')->only('studentCertificate');
         $this->certificate = $certificate;
     }
     /**
@@ -128,5 +131,27 @@ class CertificateController extends Controller
         $course->certificated = true;
         $course->save();
         return redirect()->route('cursos.show',$course->id)->with('status','Se realizó la certificación del curso');
+    }
+
+    public function studentCertificate()
+    {
+        $dni = request(['dni']);
+        $alumno = Student::where('dni',$dni)->first();
+        
+        if ($alumno === null) { //NO EXISTE
+            return response()->json(['error' => 'No existe el alumno.']);
+        }
+
+        if (!count($alumno->certificates)) { // NO CERTIFICADO
+            return response()->json(['certificado' => false]);
+        }
+
+        $certificado = $alumno->certificates->last(); // ULTIMA CERTIFICACION
+        $json = [
+            'certificado' => true,
+            'tipo_certificado' => $certificado->course->courseType->course_type_name,
+            'fecha_certificacion' => Carbon::parse($certificado->created_at)->format('d-m-Y h:m')
+        ];
+        return response()->json($json);
     }
 }

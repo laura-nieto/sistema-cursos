@@ -105,7 +105,7 @@ class CourseController extends Controller
     public function show($courseId)
     {
         $course = $this->course::findOrfail($courseId);
-        $today = Carbon::today()->format('d-m-Y');
+        $today = Carbon::now('America/Argentina/Buenos_Aires')->format('d-m-Y');
         foreach ($course->classDays as $class) {
             if ($class->students->isEmpty()) {
                $certificate = false;
