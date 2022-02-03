@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'auth.academyId' => \App\Http\Middleware\authAcademyId::class,
+        'class_day.academyId' => \App\Http\Middleware\ClassDayAcademyId::class,
     ];
 }

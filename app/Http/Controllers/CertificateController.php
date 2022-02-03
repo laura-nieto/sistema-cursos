@@ -139,7 +139,7 @@ class CertificateController extends Controller
         $alumno = Student::where('dni',$dni)->first();
         
         if ($alumno === null) { //NO EXISTE
-            return response()->json(['error' => 'No existe el alumno.']);
+            return response()->json(['error' => 'No existe el alumno.'],404);
         }
 
         if (!count($alumno->certificates)) { // NO CERTIFICADO

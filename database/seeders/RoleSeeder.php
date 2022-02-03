@@ -130,8 +130,11 @@ class RoleSeeder extends Seeder
         
         Permission::create(['name' => 'certificates.index'])->syncRoles([$adminRole,$userAcademyAdminRole,$userAcademyRole,$operatorRole]);
         Permission::create(['name' => 'certificates.destroy']);
+        
+        Permission::create(['name' => 'presentes.index'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'presentes.create'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'presentes.edit'])->syncRoles([$adminRole]);
 
-    
         $userSuperAdmin->assignRole($superAdminRole);
         $userAdmin->assignRole($adminRole);
         $userAcademyAdmin->assignRole($userAcademyAdminRole);

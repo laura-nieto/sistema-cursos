@@ -33,7 +33,8 @@
                     </div>
                     <div class="col-6">
                         <h2 class="text-center">
-                            {{ config('app.name', 'Laravel') }}
+                            Sistema de Cursos
+                            {{-- {{ config('app.name', 'Laravel') }} --}}
                         </h2>
                     </div>
                     <div class="col-3">

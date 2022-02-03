@@ -20,6 +20,10 @@ class ClassDayController extends Controller
     public function __construct(Class_day $class_day)
     {
         $this->middleware('auth');
+        $this->middleware('permission:presentes.index')->only('verPresentes');
+        $this->middleware('permission:presentes.create')->only('vistaPresentes','guardarPresentes');
+        $this->middleware('permission:presentes.edit')->only('editarPresentes','updatePresentes');
+        $this->middleware('class_day.academyId')->only('vistaPresentes','guardarPresentes','verPresentes','editarPresentes','updatePresentes');
     }
     public function setHoursCounter($hoursCounter)
     {

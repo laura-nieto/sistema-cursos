@@ -9,24 +9,26 @@
                     {{$classDay->get_date}} {{$classDay->get_start_date}} - {{$classDay->get_end_date}}
                 </h2>
             </div>
-            <div class="col-sm-2">
-                <div class="btn-group">
-                    <button
-                        type="button"
-                        class="btn btn-info dropdown-toggle"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                        Opciones
-                    </button>
-                    <div class="dropdown-menu border">
-                        <a class="dropdown-item"
-                            href="{{ url('dia/'.$classDay->id.'/edit') }}">
-                            Modificar Presentes
-                        </a>
+            @can('presentes.edit')
+                <div class="col-sm-2">
+                    <div class="btn-group">
+                        <button
+                            type="button"
+                            class="btn btn-info dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu border">
+                            <a class="dropdown-item"
+                                href="{{ url('dia/'.$classDay->id.'/edit') }}">
+                                Modificar Presentes
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcan
         </div>
     </div>
     <div class="card-body">

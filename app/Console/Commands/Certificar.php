@@ -41,8 +41,8 @@ class Certificar extends Command
      */
     public function handle()
     {
-        //$today = Carbon::today('America/Argentina/Buenos_Aires');
-        $today = Carbon::parse('2022-03-16');
+        $today = Carbon::today('America/Argentina/Buenos_Aires');
+        //$today = Carbon::parse('2022-03-16');
         $to = $today->endOfDay()->toDateTimeString();
 
         $cursos = Course::where('certificated',false)->whereHas('classDays',function(Builder $query)use($to)
@@ -71,5 +71,6 @@ class Certificar extends Command
             $course->certificated = true;
             $course->save();
         }
+        $this->info('Certificados del día emitidos.');
     }
 }
