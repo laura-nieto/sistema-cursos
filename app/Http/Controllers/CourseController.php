@@ -206,6 +206,7 @@ class CourseController extends Controller
             ->where('branch_office_id',$request->branch_office_id)
             ->where('type_course_id',$request->type_course_id)
             ->orderBy('id','desc')
+            ->firstDay()
             ->get();
         $student = Student::findOrFail($idAlumno);
         return view('inscription.indexCourses',compact('cursos_disponibles','student'));

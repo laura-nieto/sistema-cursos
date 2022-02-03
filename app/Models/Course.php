@@ -73,4 +73,10 @@ class Course extends Model
     {
         return Carbon::parse($this->total_hours)->format('H');
     }
+    public function scopeFirstDay($query)
+    {
+        $today = Carbon::today('America/Argentina/Buenos_Aires');
+        $to = $today->startOfDay()->toDateTimeString();
+        $query->whereRaw("( SELECT min(lower(hour_range)) FROM class_days WHERE courses.id = class_days.course_id ) >= ?",$to);
+    }
 } 

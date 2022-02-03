@@ -27,5 +27,5 @@ Route::group([
     Route::post('login', [AuthController::class,'login']);
     Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
-    Route::post('alumno',[CertificateController::class,'studentCertificate']);
+    Route::post('get_certificado_alumno',[CertificateController::class,'studentCertificate']);
 });

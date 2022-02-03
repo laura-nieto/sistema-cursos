@@ -40,7 +40,11 @@
                         @else
                             <div>
                                 @foreach ($course->classDays as $class)
-                                    <h6>{{$class->get_date}} {{$class->get_start_date}} - {{$class->get_end_date}}</h6>
+                                    <h6>
+                                        {{$class->get_date}}   
+                                        {{ \Carbon\Carbon::parse($class->get_start_date)->format('H:m')}} - 
+                                        {{ \Carbon\Carbon::parse($class->get_end_date)->format('H:m')}}
+                                    </h6>
                                 @endforeach
                             </div>
                         @endif
@@ -53,6 +57,8 @@
                                     Inscribir
                                 </button>
                             </form>
+                        @elseif($course->students->contains($student->id))
+                            El alumno está inscripto en este curso
                         @else
                             No disponible
                         @endif

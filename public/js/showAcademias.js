@@ -1,5 +1,6 @@
 let rol = document.getElementById('role'),
-    academias = document.getElementById('academies');
+    academias = document.getElementById('academies'),
+    selectAcademia = document.getElementById('academy');
 
 rol.addEventListener('change',()=>{
     if (rol.value != 1 && rol.value != 2) { //SI ROL ES SUPERADMIN, ADMIN
@@ -7,6 +8,7 @@ rol.addEventListener('change',()=>{
             academias.classList.toggle('d-none')
         }
     } else if ((rol.value == 1 || rol.value == 2) && !academias.classList.contains('d-none')) {
+        academy.value = "";
         academias.classList.toggle('d-none');
     }
 })
