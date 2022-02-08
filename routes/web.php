@@ -56,10 +56,11 @@ Route::resource('tipo_cursos',TypeCourseController::class);
 
 Route::resource('certificados',CertificateController::class)->only(['index', 'show']);
 Route::post('certificar/{course}',[CertificateController::class,'certificar'])->name('certificar');
+Route::get('certificados/{certificate}/exportar',[CertificateController::class,'generatePDF'])->name('exportCertificate');
 
 // LLAMADA AXIOS
 Route::post('tipo_curso/{id}',[ConsultasController::class,'obtenerAcademias']);
 Route::post('tipo_curso/{id}/academia/{idAcademia}',[ConsultasController::class,'obtenerSucursales']);
 
 //PRUEBA
-Route::get('/pruebas',[PruebasController::class,'prueba']);
+// Route::get('/pruebas',[PruebasController::class,'prueba']);

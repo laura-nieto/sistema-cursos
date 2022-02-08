@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CertificateController extends Controller
 {
@@ -153,5 +154,19 @@ class CertificateController extends Controller
             'fecha_certificacion' => Carbon::parse($certificado->created_at)->format('d-m-Y h:m')
         ];
         return response()->json($json);
+    }
+
+    public function generatePDF(Certificate $certificate)
+    {
+        $alumno = $certificate->student;
+        $curso = $certificate->course;
+        $dias = $certificate->course->classDays;
+        $data = [
+            'alumno' => $alumno,
+            'curso' => $curso,
+            'dias' => $dias,
+        ];
+        $pdf = PDF::loadView('pdf.certificate', $data);
+        return $pdf->stream('certificate.pdf');
     }
 }

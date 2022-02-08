@@ -3,7 +3,7 @@ let rol = document.getElementById('role'),
     selectAcademia = document.getElementById('academy');
 
 rol.addEventListener('change',()=>{
-    if (rol.value != 1 && rol.value != 2) { //SI ROL ES SUPERADMIN, ADMIN
+    if (rol.value != 1 && rol.value != 2) { //SI ROL NO ES SUPERADMIN, ADMIN
         if (academias.classList.contains('d-none')) {
             academias.classList.toggle('d-none')
         }

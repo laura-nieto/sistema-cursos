@@ -21,7 +21,7 @@ class ConsultasController extends Controller
     {
         $sucursales = Academy::findOrFail($academiaID)->branchOffices;
         foreach ($sucursales as $sucursal) {
-            if ($sucursal->courses->where('isActive',true)->contains('type_course_id',$tipoID)) {
+            if ($sucursal->courses->where('isActive',true)->contains('type_course_id',$tipoID)->firstDay()) {
                 $response[] = $sucursal; //SUCURSALES QUE TIENE EL TIPO DE CURSO
             }
         }

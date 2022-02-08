@@ -169,7 +169,7 @@
                     <strong>
                         Modalidad:
                     </strong>
-                 </h6>
+                </h6>
             </div>
             <div class="col-3">
                 <span>{{ $curso->modality }}</span>
@@ -179,7 +179,7 @@
                     <strong>
                         Días:
                     </strong>
-                 </h6>
+                </h6>
             </div>
             <div class="col-4">
                 @foreach ($dias as $dia)
@@ -189,4 +189,10 @@
         </div>
     </div>
 </div>
+<div class="row mt-3 d-flex align-items-center justify-content-center">
+    <a href="{{route('exportCertificate',$certificado)}}" class="btn btn-primary">
+        PDF
+    </a>
+</div>
+
 @endsection
