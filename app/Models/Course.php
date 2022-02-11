@@ -30,7 +30,7 @@ class Course extends Model
         return $this->belongsTo(Course_type::class,'type_course_id');
     }
     public function certificates(){
-        return $this-> hasMany(Certificate::class,'course_id');
+        return $this->hasMany(Certificate::class,'course_id');
     }
     public function classDays()
     {

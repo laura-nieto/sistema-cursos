@@ -338,25 +338,27 @@
                         {{$student->last_name}}
                     </td>
                     @if (auth()->user()->can('students.index'))
-                    <td class="d-flex justify-content-center">
-                        <a class="btn btn-info btn-sm" href="">
-                            Detalle
-                        </a>
-                    </td>
-                    <td>
-                        <form action="{{route('cursos.bajaAlumno',[$course->id,$student->id])}}"
-                            method="POST"
-                            class="d-flex justify-content-center"
-                            >
-                            @csrf
-                            @method('DELETE')
-                            <input 
-                                type="submit"
-                                value="Dar  baja"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('Esta seguro que desea dar de baja a este estudiante?')"/>
-                        </form>
-                    </td>
+                        <td class="d-flex justify-content-center">
+                            <a class="btn btn-info btn-sm" href="">
+                                Detalle
+                            </a>
+                        </td>
+                        @if( !$course->classDays()->first()->students()->exists())                        
+                            <td>
+                                <form action="{{route('cursos.bajaAlumno',[$course->id,$student->id])}}"
+                                    method="POST"
+                                    class="d-flex justify-content-center"
+                                    >
+                                    @csrf
+                                    @method('DELETE')
+                                    <input 
+                                        type="submit"
+                                        value="Dar baja"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Esta seguro que desea dar de baja a este estudiante?')"/>
+                                </form>
+                            </td>
+                        @endif
                     @else
                         <td>
                         </td>
