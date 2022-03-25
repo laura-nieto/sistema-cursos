@@ -151,7 +151,8 @@ class CertificateController extends Controller
         $json = [
             'certificado' => true,
             'tipo_certificado' => $certificado->course->courseType->course_type_name,
-            'fecha_certificacion' => Carbon::parse($certificado->created_at)->format('d-m-Y h:m')
+            'fecha_certificacion' => Carbon::parse($certificado->created_at)->format('d-m-Y h:m'),
+            'fecha_vencimiento' => Carbon::parse($certificado->created_at)->addYear()->format('d-m-Y')
         ];
         return response()->json($json);
     }
