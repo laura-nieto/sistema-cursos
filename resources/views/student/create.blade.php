@@ -57,7 +57,7 @@
                         </div>
                         <div class="col">
                             <label for="fechaDeNacimiento">
-                                Fecha Nacimiento: *
+                                Fecha Nacimiento: 
                             </label>
                             <input
                                 type="date"
@@ -66,7 +66,6 @@
                                 id="fechaDeNacimientoCrear"
                                 max="{{ date('Y-m-d',mktime(0, 0, 0,date("m"),date("d"),date("Y")-14)) }}"
                                 value="{{old('fechaDeNacimiento')}}"
-                                required
                                 >
                         </div>
                     </div>

@@ -44,6 +44,10 @@ Route::post('dia/{classDay}/edit',[ClassDayController::class,'updatePresentes'])
 // Ver presentes
 Route::get('presentes/dia/{classDay}',[ClassDayController::class,'verPresentes']);
 
+/* LLAMADA AXIOS */
+Route::post('tipo_curso/{id}',[ConsultasController::class,'obtenerAcademias']);
+Route::post('tipo_curso/{id}/academia/{idAcademia}',[ConsultasController::class,'obtenerSucursales']);
+
 Route::resource('horarios', ClassDayController::class);
 
 Route::resource('estudiantes', StudentController::class);
@@ -57,10 +61,6 @@ Route::resource('tipo_cursos',TypeCourseController::class);
 Route::resource('certificados',CertificateController::class)->only(['index', 'show']);
 Route::post('certificar/{course}',[CertificateController::class,'certificar'])->name('certificar');
 Route::get('certificados/{certificate}/exportar',[CertificateController::class,'generatePDF'])->name('exportCertificate');
-
-// LLAMADA AXIOS
-Route::post('tipo_curso/{id}',[ConsultasController::class,'obtenerAcademias']);
-Route::post('tipo_curso/{id}/academia/{idAcademia}',[ConsultasController::class,'obtenerSucursales']);
 
 //PRUEBA
 // Route::get('/pruebas',[PruebasController::class,'prueba']);

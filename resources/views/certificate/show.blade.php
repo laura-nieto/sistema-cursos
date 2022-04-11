@@ -142,7 +142,17 @@
         </div>
         {{-- row --}}
         <div class="row mb-3 d-flex align-items-center">
-            <div class="col-3">
+            <div class="col-3 ">
+                <h6>
+                    <strong>
+                        ID del curso:
+                     </strong>
+                 </h6>
+             </div>
+             <div class="col-3">
+                <span>{{ $curso->id }}</span>
+             </div>
+             <div class="col-3">
                 <h6>
                     <strong>
                         Tipo:
@@ -152,6 +162,9 @@
             <div class="col-3">
                 <span>{{ $curso->courseType->course_type_name }}</span>
             </div>
+        </div>
+        {{-- row --}}
+        <div class="row mb-3 d-flex align-items-center">
             <div class="col-3">
                 <h6>
                     <strong>
@@ -162,8 +175,6 @@
             <div class="col-3">
                 <span>{{ $curso->getSimpleHours()}} / {{ $curso->getSimpleHours() }}</span>
             </div>
-        </div>
-        <div class="row mb-3 d-flex align-items-center">
             <div class="col-3">
                 <h6>
                     <strong>
@@ -174,6 +185,8 @@
             <div class="col-3">
                 <span>{{ $curso->modality }}</span>
             </div>
+        </div>
+        <div class="row mb-3 d-flex align-items-center">
             <div class="col-2">
                 <h6>
                     <strong>

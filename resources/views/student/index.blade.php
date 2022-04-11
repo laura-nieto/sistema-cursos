@@ -113,7 +113,7 @@
                         @endif
                         @if(auth()->user()->can('students.destroy') && $student->isActive)
                             <td>
-                                <form action="{{ route('estudiantes.destroy', $student) }}" method="POST">
+                                <form action="{{ route('estudiantes.destroy', $student->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <input 

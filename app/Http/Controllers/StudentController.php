@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -115,8 +116,38 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        //Find associated certificates and isn't enrolled in a course
+        $validator = Validator::make(['estudiante'=>$id], [
+            'estudiante' => [
+                function ($attribute, $value, $fail) {
+                    $student = Student::findOrFail($value);
+                    if ($student->certificates->isNotEmpty()) {
+                        $fail('Este '.$attribute.' posee certificados.');
+                    }
+                    if ($student->courses->isNotEmpty()) {
+                        $fail('Este '.$attribute.' está inscripto a un curso.');
+                    }
+                },
+            ],
+        ]);
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator);
+        }
+
+        if ($student->isActive) {
+            $student->update([
+                'isActive' => false,
+            ]);
+            return back()->with('status','Estudiante eliminado con éxito');
+        }else{
+            $student->update([
+                'isActive' => true,
+            ]);
+            return back()->with('status','Estudiante restaurado con éxito');
+        }
     }
 }

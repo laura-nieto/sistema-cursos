@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('name',100);
             $table-> string('last_name',100);   
             $table->string('dni',30)->unique();
-            $table->date('birth_date');
+            $table->date('birth_date')->nullable();
             $table->string('phone',30)->nullable();
             $table->string('email')->unique()->nullable();
             $table->boolean('isActive');

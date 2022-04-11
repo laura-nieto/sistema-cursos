@@ -305,9 +305,16 @@
             </h6>
         </div>
     @else
-        <h6 class="text-center">
-            {{$course->students->count()}}/{{$course->student_capacity}}
-        </h6>
+        <div class="row d-flex flex-column justify-content-center mb-2 align-items-center">
+            <h5>
+                {{$course->students->count()}}/{{$course->student_capacity}}
+            </h5>
+            @if($course->students->count() < $course->student_capacity)    
+                <a class="btn btn-sm btn-primary p-2" href="{{route('alumnos.inscripcion',$course->id)}}">
+                    Inscribir alumnos
+                </a>
+            @endif
+        </div>
         <table class="table">
             <thead>
                 <tr>

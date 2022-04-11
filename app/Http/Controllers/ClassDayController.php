@@ -319,8 +319,9 @@ class ClassDayController extends Controller
         $students = $classDay->students;
         return view('classDay.showPresents',compact('classDay','students'));
     }
-    public function editarPresentes(Class_day $classDay)
+    public function editarPresentes($id)
     {
+        $classDay = Class_day::find($id);
         $students = $classDay->students;
         return view('classDay.editPresents',compact('classDay','students'));
     }

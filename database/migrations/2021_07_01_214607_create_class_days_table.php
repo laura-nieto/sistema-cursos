@@ -17,7 +17,7 @@ class CreateClassDaysTable extends Migration
             $table->id();
             $table->unsignedBigInteger('course_id');
             $table->timestampRange('hour_range');
-            $table->string('name_instructor',120);
+            $table->string('name_instructor',120)->nullable();
             $table->timestamps();
 
             $table->foreign('course_id')

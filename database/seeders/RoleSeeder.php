@@ -114,14 +114,14 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'branch_offices.destroy'])->syncRoles([$adminRole]);
 
         Permission::create(['name' => 'courses.index'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
-        Permission::create(['name' => 'courses.create'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
-        Permission::create(['name' => 'courses.edit'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
-        Permission::create(['name' => 'courses.destroy'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
+        Permission::create(['name' => 'courses.create'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'courses.edit'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'courses.destroy'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
 
-        Permission::create(['name' => 'students.index'])->syncRoles([$adminRole,$userAcademyAdminRole,$userAcademyRole]);
-        Permission::create(['name' => 'students.create'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
-        Permission::create(['name' => 'students.edit'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
-        Permission::create(['name' => 'students.destroy'])->syncRoles([$userAcademyAdminRole,$userAcademyRole]);
+        Permission::create(['name' => 'students.index'])->syncRoles([$adminRole,$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'students.create'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'students.edit'])->syncRoles([$userAcademyAdminRole,$userAcademyRole,$adminRole]);
+        Permission::create(['name' => 'students.destroy'])->syncRoles([$adminRole]);
 
         Permission::create(['name' => 'course_types.index'])->syncRoles([$adminRole]);
         Permission::create(['name' => 'course_types.create'])->syncRoles([$adminRole]);

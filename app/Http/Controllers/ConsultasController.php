@@ -20,9 +20,14 @@ class ConsultasController extends Controller
     public function obtenerSucursales($tipoID,$academiaID)
     {
         $sucursales = Academy::findOrFail($academiaID)->branchOffices;
+        $response = collect();
         foreach ($sucursales as $sucursal) {
-            if ($sucursal->courses->where('isActive',true)->contains('type_course_id',$tipoID)->firstDay()) {
-                $response[] = $sucursal; //SUCURSALES QUE TIENE EL TIPO DE CURSO
+            if ($sucursal->courses->where('isActive',true)->contains('type_course_id',$tipoID)) {
+                foreach ($sucursal->courses as $course) {
+                    if ($course->isActive === true && $course->firstDay()->get() && !$response->contains('id',$sucursal->id)) {
+                        $response->push($sucursal); //SUCURSALES QUE TIENE EL TIPO DE CURSO
+                    }
+                }
             }
         }
         return response()->json($response);

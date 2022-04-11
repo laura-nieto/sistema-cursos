@@ -77,7 +77,7 @@ addDays = (day = null,date = '', startTime , endTime = '', nameInstructor = '') 
     inputInstructor.setAttribute("id",`nombreInstructor${count}CrearDia`)
     inputInstructor.setAttribute("class","form-control")
     inputInstructor.setAttribute("value",nameInstructor)
-    inputInstructor.setAttribute("required","")
+//    inputInstructor.setAttribute("required","")
 
 
     let numberTheDays = document.getElementById('numberTheDays')

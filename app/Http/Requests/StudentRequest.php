@@ -34,7 +34,7 @@ class studentRequest extends FormRequest
                 'numeric',
                 'min:0',
                 Rule::unique('students')->ignore($request->id)],
-            'fechaDeNacimiento'=> ['required','before_or_equal:'.date('Y-m-d',mktime(0, 0, 0,date("m"),date("d"),date("Y")-14))],
+            'fechaDeNacimiento'=> ['nullable','before_or_equal:'.date('Y-m-d',mktime(0, 0, 0,date("m"),date("d"),date("Y")-14))],
             'prefijo' => ['nullable','size:2'],
             'telefono' => ['nullable','size:8'],
             'email' => 
