@@ -42,8 +42,8 @@
                                 @foreach ($course->classDays as $class)
                                     <h6>
                                         {{$class->get_date}}   
-                                        {{ \Carbon\Carbon::parse($class->get_start_date)->format('H:m')}} - 
-                                        {{ \Carbon\Carbon::parse($class->get_end_date)->format('H:m')}}
+                                        {{ \Carbon\Carbon::parse($class->get_start_date)->format('H:i')}} - 
+                                        {{ \Carbon\Carbon::parse($class->get_end_date)->format('H:i')}}
                                     </h6>
                                 @endforeach
                             </div>

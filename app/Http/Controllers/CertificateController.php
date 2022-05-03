@@ -9,6 +9,7 @@ use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
 {
@@ -159,13 +160,26 @@ class CertificateController extends Controller
 
     public function generatePDF(Certificate $certificate)
     {
+        $today = Carbon::today()->locale('es_ES');
+        $hoy = $today->translatedFormat('l, d ') . ' de ' . $today->translatedFormat('F ') . ' del ' . $today->format('Y') ;
         $alumno = $certificate->student;
         $curso = $certificate->course;
-        $dias = $certificate->course->classDays;
+        $dias = $certificate->course->classDays->sortBy('id');
+        $sucursal = $certificate->course->branchOffice;
+        $vencimiento = Carbon::parse($certificate->created_at)->addYear()->format('d-m-Y');
+        $operador = Auth::user();
+        $path_to_image = "/images/ba_bak.svg";
+        $logo = "data:image/svg+xml;base64,". base64_encode(file_get_contents(public_path($path_to_image)));
         $data = [
+            'certificado' => $certificate,
             'alumno' => $alumno,
             'curso' => $curso,
             'dias' => $dias,
+            'sucursal' => $sucursal,
+            'vencimiento' => $vencimiento,
+            'hoy' => $hoy,
+            'operador' => $operador,
+            'logo' => $logo,
         ];
         $pdf = PDF::loadView('pdf.certificate', $data);
         return $pdf->stream('certificate.pdf');
