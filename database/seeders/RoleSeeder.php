@@ -23,69 +23,69 @@ class RoleSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $userSuperAdmin = User::create([
-            'name'=> 'ASI',
-            'last_name'=> 'super_admin',
-            'email'=>'asi@info.com',
+            'name'=> 'Super',
+            'last_name'=> 'Admin',
+            'email'=>'super_admin@info.com',
             'password'=> bcrypt('12345678'),
-            'dni'=> '95123456',
+            'dni'=> '0',
             'gender'=>'male',
             'active'=>true,
             'remember_token' => Str::random(10),
         ]);
 
-        $userAdmin = User::create([
-            'name'=> 'admin',
-            'last_name'=> 'Admin',
-            'email'=>'admin@info.com',
-            'password'=> bcrypt('12345678'),
-            'dni'=> '951234561',
-            'gender'=>'male',
-            'active'=>true,
-            'remember_token' => Str::random(10),
-        ]);
-        $userAcademyAdmin = User::create([
-            'academy_id'=>1,
-            'name'=>'academyAdmin',
-            'last_name'=>'academyAdmin',
-            'email'=>'academyAdmin@info.com',
-            'password'=>bcrypt('12345678'),
-            'dni'=> '951234562',
-            'gender'=>'male',
-            'active'=>true,
-            'remember_token' => Str::random(10),
-        ]);
-        $userAcademyAdmin2 = User::create([
-            'academy_id'=>2,
-            'name'=> 'academyAdmin',
-            'last_name'=> 'academyAdmin',
-            'email'=>'academyAdmin2@info.com',
-            'password'=> bcrypt('12345678'),
-            'dni'=> '95123459',
-            'gender'=>'male',
-            'active'=>true,
-            'remember_token' => Str::random(10),
-        ]);
-        $userAcademy = User::create([
-            'academy_id'=>3,
-            'name'=> 'academy',
-            'last_name'=> 'academy',
-            'email'=>'academy@info.com',
-            'password'=> bcrypt('12345678'),
-            'dni'=> '951234563',
-            'gender'=>'male',
-            'active'=>true,
-            'remember_token' => Str::random(10),
-        ]);
-        $userOperador = User::create([
-            'name'=> 'operador',
-            'last_name'=> 'operador',
-            'email'=>'operador@info.com',
-            'password'=> bcrypt('12345678'),
-            'dni'=> '951234564',
-            'gender'=>'male',
-            'active'=>true,
-            'remember_token' => Str::random(10),
-        ]);
+        // $userAdmin = User::create([
+        //     'name'=> 'admin',
+        //     'last_name'=> 'Admin',
+        //     'email'=>'admin@info.com',
+        //     'password'=> bcrypt('12345678'),
+        //     'dni'=> '951234561',
+        //     'gender'=>'male',
+        //     'active'=>true,
+        //     'remember_token' => Str::random(10),
+        // ]);
+        // $userAcademyAdmin = User::create([
+        //     'academy_id'=>1,
+        //     'name'=>'academyAdmin',
+        //     'last_name'=>'academyAdmin',
+        //     'email'=>'academyAdmin@info.com',
+        //     'password'=>bcrypt('12345678'),
+        //     'dni'=> '951234562',
+        //     'gender'=>'male',
+        //     'active'=>true,
+        //     'remember_token' => Str::random(10),
+        // ]);
+        // $userAcademyAdmin2 = User::create([
+        //     'academy_id'=>2,
+        //     'name'=> 'academyAdmin',
+        //     'last_name'=> 'academyAdmin',
+        //     'email'=>'academyAdmin2@info.com',
+        //     'password'=> bcrypt('12345678'),
+        //     'dni'=> '95123459',
+        //     'gender'=>'male',
+        //     'active'=>true,
+        //     'remember_token' => Str::random(10),
+        // ]);
+        // $userAcademy = User::create([
+        //     'academy_id'=>3,
+        //     'name'=> 'academy',
+        //     'last_name'=> 'academy',
+        //     'email'=>'academy@info.com',
+        //     'password'=> bcrypt('12345678'),
+        //     'dni'=> '951234563',
+        //     'gender'=>'male',
+        //     'active'=>true,
+        //     'remember_token' => Str::random(10),
+        // ]);
+        // $userOperador = User::create([
+        //     'name'=> 'operador',
+        //     'last_name'=> 'operador',
+        //     'email'=>'operador@info.com',
+        //     'password'=> bcrypt('12345678'),
+        //     'dni'=> '951234564',
+        //     'gender'=>'male',
+        //     'active'=>true,
+        //     'remember_token' => Str::random(10),
+        // ]);
 
         $superAdminRole = Role::create(['name'=>'super_admin']);
         $adminRole = Role::create(['name'=>'admin']);
@@ -136,10 +136,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'presentes.edit'])->syncRoles([$adminRole]);
 
         $userSuperAdmin->assignRole($superAdminRole);
-        $userAdmin->assignRole($adminRole);
-        $userAcademyAdmin->assignRole($userAcademyAdminRole);
-        $userAcademyAdmin2->assignRole($userAcademyAdminRole);
-        $userAcademy->assignRole($userAcademyRole);
-        $userOperador->assignRole($operatorRole);
+        // $userAdmin->assignRole($adminRole);
+        // $userAcademyAdmin->assignRole($userAcademyAdminRole);
+        // $userAcademyAdmin2->assignRole($userAcademyAdminRole);
+        // $userAcademy->assignRole($userAcademyRole);
+        // $userOperador->assignRole($operatorRole);
     }
 }
